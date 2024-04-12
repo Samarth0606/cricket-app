@@ -1,0 +1,15 @@
+node_modules
+
+/.cache
+/build
+/public/build
+.env
+
+.DS_Store
+
+keys/
+# Sentry Auth Token
+.sentryclirc
+
+# Sentry Auth Token
+.sentryclirc

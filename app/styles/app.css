@@ -1,0 +1,117 @@
+:root {
+  --pink-1: #ff00a5;
+  --pink-2: #ff33b7;
+  --pink-3: #990063;
+  --purple-1: #320073;
+  --purple-2: #271b5b;
+  --gray-1: #9ea2ae;
+  --gray-2: #e7e8eb;
+  --gray-3: #f3f3f5;
+  --yellow-1: #ffd200;
+  --yellow-2: #ffdb33;
+  --yellow-3: #997e00;
+  --red-1: #d70a0a;
+  --red-2: #ff3030;
+  --red-3: #8b1111;
+  --fader: rgba(47, 47, 47, 0.25);
+  --top-jhaalar: url("/images/top-jhaalar.svg");
+  --left-jhaalar: url("/images/left-jhaalar.svg");
+  --left-jhaalar-blue: url("/images/left-jhaalar-purple.svg");
+  --right-jhaalar: url("/images/right-jhaalar.svg");
+  --right-jhaalar-blue: url("/images/right-jhaalar-purple.svg");
+  --bottom-right-corner: url("/images/bottom-right-corner.svg");
+  --bottom-left-corner: url("/images/bottom-left-corner.svg");
+}
+
+html {
+  font-size: 12px;
+}
+
+@media only screen and (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.arrow-left-purple-1::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 100%;
+  position: absolute;
+  z-index: 50;
+  left: -28px;
+  top: 0;
+  background: #320073;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+.arrow-left-red-1::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 100%;
+  position: absolute;
+  z-index: 50;
+  left: -28px;
+  top: 0;
+  background: #d70a0a;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+.arrow-left-pink-1::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 100%;
+  position: absolute;
+  z-index: 50;
+  left: -28px;
+  top: 0;
+  background: #ff00a5;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+.arrow-right-purple-1::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 100%;
+  position: absolute;
+  z-index: 50;
+  right: -28px;
+  top: 0;
+  background: #320073;
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
+}
+
+.arrow-right-red-1::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 100%;
+  position: absolute;
+  z-index: 50;
+  right: -28px;
+  top: 0;
+  background: #d70a0a;
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
+}
+
+.arrow-right-pink-1::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 100%;
+  position: absolute;
+  z-index: 50;
+  right: -28px;
+  top: 0;
+  background: #ff00a5;
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
+}
+
+.glass-effect {
+  backdrop-filter: blur(8.6px);
+  -webkit-backdrop-filter: blur(8.6px);
+}

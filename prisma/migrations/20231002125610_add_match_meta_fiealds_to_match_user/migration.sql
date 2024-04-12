@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "match_user" ADD COLUMN     "balls_played" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "end_time" TIMESTAMP(3),
+ADD COLUMN     "run_rate" DOUBLE PRECISION NOT NULL DEFAULT 0,
+ADD COLUMN     "runs" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "start_time" TIMESTAMP(3),
+ADD COLUMN     "wickets_fallen" INTEGER NOT NULL DEFAULT 0;

@@ -1,0 +1,139 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id             Int          @id @default(autoincrement())
+  oneauth_id     Int          @unique
+  firstname      String       @db.VarChar(255)
+  lastname       String       @db.VarChar(255)
+  email          String       @unique @db.VarChar(255)
+  photo          String?      @db.VarChar(255)
+  mobile         String?      @db.VarChar(255)
+  verifiedmobile String?      @db.VarChar(255)
+  team_name      String?      @unique @db.VarChar(255)
+  team_color     String?      @db.VarChar(255)
+  created_at     DateTime     @default(now()) @db.Timestamptz(0)
+  updated_at     DateTime     @default(now()) @updatedAt @db.Timestamptz(0)
+  matches        match_user[]
+  leaderboard    overall_leaderboard?
+}
+
+model match {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(255)
+  result     String?      @db.VarChar(255)
+  venue      Json?         
+  start_time DateTime     @db.Timestamptz(0)
+  end_time   DateTime     @db.Timestamptz(0)
+  created_at DateTime     @default(now()) @db.Timestamptz(0)
+  updated_at DateTime     @default(now()) @updatedAt @db.Timestamptz(0)
+  users      match_user[]
+}
+
+model tags_blacklist_whitelist {
+  id                    Int @id @default(autoincrement())
+  tag_id                Int @unique
+  days_till_blacklisted Int
+}
+
+enum match_user_status {
+  not_started
+  in_play
+  paused
+  finished
+}
+
+model match_user {
+  id              Int               @id @default(autoincrement())
+  match_id        Int
+  user_id         Int
+  status          match_user_status @default(not_started)
+  start_time      DateTime?         @db.Timestamptz(0)
+  end_time        DateTime?         @db.Timestamptz(0)
+  balls_played    Int               @default(0)
+  runs            Int               @default(0)
+  wickets_fallen  Int               @default(0)
+  run_rate        Float             @default(0)
+  created_at      DateTime          @default(now()) @db.Timestamptz(0)
+  updated_at      DateTime          @default(now()) @updatedAt @db.Timestamptz(0)
+  match           match             @relation(fields: [match_id], references: [id])
+  user            user              @relation(fields: [user_id], references: [id])
+  matchUserTags   match_user_tag[]
+  matchBalls      match_ball[]
+
+  @@unique([match_id, user_id])
+}
+
+enum match_user_tag_status {
+  striker
+  non_striker
+  stands
+  out
+  retire_hurt
+}
+
+model match_user_tag {
+  id            Int                   @id @default(autoincrement())
+  order         Int
+  match_user_id Int
+  tag_id        Int
+  status        match_user_tag_status
+  created_at    DateTime              @default(now()) @db.Timestamptz(0)
+  updated_at    DateTime              @default(now()) @updatedAt @db.Timestamptz(0)
+  matchUser     match_user            @relation(fields: [match_user_id], references: [id])
+
+  @@unique([match_user_id, tag_id])
+}
+
+enum match_ball_values {
+  single
+  double
+  tripple
+  four
+  five
+  six
+  dot
+  wicket
+}
+model match_ball {
+  id                Int                 @id @default(autoincrement())     
+  match_user_id     Int
+  number            Int               
+  tag_id            Int
+  question_id       Int
+  answer_choice_ids Int[]               @default([])
+  is_hattrick_ball  Boolean             @default(false)
+  score             Int                 @default(0)
+  value             match_ball_values?
+  is_current        Boolean             @default(true)
+  time_remaining    Int                 @default(60) //seconds
+  submit_at         DateTime?           @db.Timestamptz(0)
+  created_at        DateTime            @default(now()) @db.Timestamptz(0)
+  updated_at        DateTime            @default(now()) @updatedAt @db.Timestamptz(0)
+  matchUser         match_user          @relation(fields: [match_user_id], references: [id])
+
+  @@unique([match_user_id, question_id])
+  @@unique([match_user_id, number])
+}
+
+model overall_leaderboard {
+  id                    Int       @id @default(autoincrement())
+  user_id               Int       @unique
+  match_ids             Int[]     @default([])
+  total_runs            Int       @default(0)
+  total_balls_played    Int       @default(0)
+  total_wickets_fallen  Int       @default(0)
+  net_run_rate          Float     @default(0.00)
+  created_at            DateTime  @default(now()) @db.Timestamptz(0)
+  updated_at            DateTime  @default(now()) @updatedAt @db.Timestamptz(0)
+  user                  user      @relation(fields: [user_id], references: [id])
+}
